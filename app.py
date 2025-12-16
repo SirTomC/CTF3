@@ -29,12 +29,22 @@ dashboard_template = """
 admin_template = """
 <h2>Admin Area</h2>
 <p>This is the admin dashboard.</p>
-<p>But there's nothing sensitive here...</p>
+<p>Nothing to see here</p>
 """
 
-@app.route('/admin/flag')
-def admin_flag():
-    return "<h2>Internal Admin Tool</h2><code>FLAG{misconfig_admin_subroute_exposed}</code>"
+@app.route('/')
+def home():
+    return """
+        <h3>Welcome to the app!</h3>
+        <p>Usernames:</p>
+        <ul>
+            <li>peter</li>
+            <li>carlos</li>
+            <li>admin</li>
+        </ul>
+        <p>Hint: Password is weak</p>
+        <a href="/login">Click here to log in</a>
+    """
 
 @app.route('/')
 def home():
@@ -67,6 +77,11 @@ def admin_area():
     if not user or not users[user]['is_admin']:
         return "403 Forbidden", 403
     return render_template_string(admin_template)
+
+@app.route('/admin/flag')
+def admin_flag():
+    return "<h2>Internal Admin Tool</h2><code>Tommy{uH_y0uR_N0t_SupPoS3D_tO_s33_t1hs}</code>"
+
 
 @app.route('/logout')
 def logout():
