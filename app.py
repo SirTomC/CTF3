@@ -1,4 +1,4 @@
-from flask import Flask, request, session, redirect, url_for, render_template_string
+from flask import Flask, request, session, redirect, render_template_string
 import os
 
 app = Flask(__name__)
@@ -12,12 +12,18 @@ users = {
 
 login_page = """
 <h2>Login</h2>
+
+<p><b>Usernames:</b> peter, carlos, admin</p>
+<p><b>Hint:</b> Password is weak</p>
+<p><b>Hint:</b> Check <code>/robots.txt</code></p>
+
 <form method="POST">
     Username: <input name="username"><br>
     Password: <input type="password" name="password"><br>
     <button type="submit">Login</button>
 </form>
 """
+
 
 dashboard_template = """
 <h2>Dashboard</h2>
@@ -26,27 +32,14 @@ dashboard_template = """
 <p>You are an admin. Visit <a href='/admin'>/admin</a></p>
 {% endif %}
 """
+
 admin_template = """
 <h2>Admin Area</h2>
 <p>This is the admin dashboard.</p>
-<p>Nothing to see here</p>
 <p>Hint: /admin/flag</p>
 """
 
-@app.route('/')
-def home():
-    return """
-        <h3>Welcome to the app!</h3>
-        <p>Usernames:</p>
-        <ul>
-            <li>peter</li>
-            <li>carlos</li>
-            <li>admin</li>
-        </ul>
-        <p>Hint: Password is weak</p>
-        <a href="/login">Click here to log in</a>
-    """
-
+@app.route('/', methods=['GET', 'POST'])
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     error = None
@@ -60,7 +53,6 @@ def login():
         else:
             error = "Invalid username or password."
     return render_template_string(login_page + ('<p style="color:red;">' + error + '</p>' if error else ''))
-
 
 @app.route('/dashboard')
 def dashboard():
@@ -80,7 +72,6 @@ def admin_area():
 @app.route('/admin/flag')
 def admin_flag():
     return "<h2>Internal Admin Tool</h2><code>Tommy{uH_y0uR_N0t_SupPoS3D_tO_s33_t1hs}</code>"
-
 
 @app.route('/logout')
 def logout():
