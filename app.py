@@ -5,8 +5,8 @@ app = Flask(__name__)
 app.secret_key = 'super_secret_key'
 
 users = {
-    'alice': {'password': 'alicepassword', 'is_admin': False},
-    'bob': {'password': 'bobpassword', 'is_admin': False},
+    'carlos': {'password': 'carlospassword', 'is_admin': False},
+    'peter': {'password': 'peterpassword', 'is_admin': False},
     'admin': {'password': 'adminpassword', 'is_admin': True}
 }
 
@@ -30,6 +30,7 @@ admin_template = """
 <h2>Admin Area</h2>
 <p>This is the admin dashboard.</p>
 <p>Nothing to see here</p>
+<p>Hint: /admin/flag</p>
 """
 
 @app.route('/')
