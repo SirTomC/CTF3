@@ -78,6 +78,16 @@ def logout():
     session.clear()
     return redirect('/login')
 
+@app.route('/robots.txt')
+def robots():
+    return (
+        "User-agent: *\n"
+        "Disallow: /admin\n"
+        "Disallow: /admin/flag\n",
+        200,
+        {'Content-Type': 'text/plain'}
+    )
+
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
     app.run(host='0.0.0.0', port=port)
