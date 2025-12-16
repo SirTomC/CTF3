@@ -47,12 +47,9 @@ def home():
         <a href="/login">Click here to log in</a>
     """
 
-@app.route('/')
-def home():
-    return redirect('/login')
-
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    error = None
     if request.method == 'POST':
         uname = request.form['username']
         pwd = request.form['password']
@@ -61,8 +58,9 @@ def login():
             session['user'] = uname
             return redirect('/dashboard')
         else:
-            return "Invalid credentials", 403
-    return render_template_string(login_page)
+            error = "Invalid username or password."
+    return render_template_string(login_page + ('<p style="color:red;">' + error + '</p>' if error else ''))
+
 
 @app.route('/dashboard')
 def dashboard():
